@@ -24,6 +24,7 @@ PACKAGES_E2E=$(shell go list ./... | grep '/itest')
 # due to multiple packages found
 # context: https://github.com/golang/go/issues/24929
 PACKAGES_E2E_OP=$(shell go list -tags=e2e_op ./... | grep '/itest/opstackl2')
+PACKAGES_E2E_ROOCH=$(shell go list -tags=e2e_rooch ./... | grep '/itest/roochl2')
 PACKAGES_E2E_BCD=$(shell go list -tags=e2e_bcd ./... | grep '/itest/cosmwasm/bcd')
 
 ifeq ($(LINK_STATICALLY),true)
