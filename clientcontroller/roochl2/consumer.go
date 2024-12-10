@@ -8,14 +8,10 @@ import (
 	bbnclient "github.com/babylonlabs-io/babylon/client/client"
 	btcstakingtypes "github.com/babylonlabs-io/babylon/x/btcstaking/types"
 	sdkquerytypes "github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/ethclient"
 
 	//"github.com/ethereum/go-ethereum/common/hexutil"
 	//"github.com/ethereum/go-ethereum/ethclient"
 	"math"
-	"math/big"
 
 	sdkErr "cosmossdk.io/errors"
 	wasmdparams "github.com/CosmWasm/wasmd/app/params"
@@ -321,18 +317,48 @@ func (cc *Roochl2ConsumerController) QueryFinalityProviderHasPower(fpPk *btcec.P
 // TODO: return the BTC finalized L2 block, it is tricky b/c it's not recorded anywhere so we can
 // use some exponential strategy to search
 func (cc *Roochl2ConsumerController) QueryLatestFinalizedBlock() (*types.BlockInfo, error) {
-	l2Block, err := cc.roochl2Client.HeaderByNumber(context.Background(), big.NewInt(ethrpc.FinalizedBlockNumber.Int64()))
+	//l2Block, err := cc.roochl2Client.HeaderByNumber(context.Background(), big.NewInt(ethrpc.FinalizedBlockNumber.Int64()))
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//if l2Block.Number.Uint64() == 0 {
+	//	return nil, nil
+	//}
+	//
+	//return &types.BlockInfo{
+	//	Height: l2Block.Number.Uint64(),
+	//	Hash:   l2Block.Hash().Bytes(),
+	//}, nil
+	//
+	getBlocksParams := &roochtypes.GetBlocksParams{
+		BlockType: string(roochtypes.BlockTypeFinalized),
+		//Cursor:          fmt.Sprintf("%d", height),
+		Limit:           "1",
+		DescendingOrder: true,
+	}
+
+	// batch call
+	result, err := cc.roochl2Client.GetBlocks(getBlocksParams)
 	if err != nil {
 		return nil, err
 	}
 
-	if l2Block.Number.Uint64() == 0 {
-		return nil, nil
+	l2blocks, err := client.BlockViewsToBlocks(result.GetItems())
+	if err != nil {
+		return nil, err
+	}
+	if len(l2blocks) <= 0 {
+		return nil, fmt.Errorf("QueryLatestFinalizedBlock fails")
 	}
 
+	block_hash, err := hex.DecodeString(l2blocks[0].BlockHash)
+	if err != nil {
+		return nil, err
+	}
 	return &types.BlockInfo{
-		Height: l2Block.Number.Uint64(),
-		Hash:   l2Block.Hash().Bytes(),
+		Height: l2blocks[0].BlockHeight,
+		Hash:   block_hash,
 	}, nil
 }
 
@@ -417,11 +443,11 @@ func (cc *Roochl2ConsumerController) QueryBlock(height uint64) (*types.BlockInfo
 	}, nil
 }
 
-// Note: this is specific to the Roochl2ConsumerController and only used for testing
-// QueryBlock returns the Ethereum block from a RPC call
-func (cc *Roochl2ConsumerController) QueryEthBlock(height uint64) (*ethtypes.Header, error) {
-	return cc.roochl2Client.HeaderByNumber(context.Background(), new(big.Int).SetUint64(height))
-}
+//// Note: this is specific to the Roochl2ConsumerController and only used for testing
+//// QueryBlock returns the Ethereum block from a RPC call
+//func (cc *Roochl2ConsumerController) QueryEthBlock(height uint64) (*ethtypes.Header, error) {
+//	return cc.roochl2Client.HeaderByNumber(context.Background(), new(big.Int).SetUint64(height))
+//}
 
 // QueryIsBlockFinalized returns whether the given the L2 block number has been finalized
 func (cc *Roochl2ConsumerController) QueryIsBlockFinalized(height uint64) (bool, error) {
@@ -464,12 +490,34 @@ func (cc *Roochl2ConsumerController) QueryActivatedHeight() (uint64, error) {
 
 // QueryLatestBlockHeight gets the latest L2 block number from a RPC call
 func (cc *Roochl2ConsumerController) QueryLatestBlockHeight() (uint64, error) {
-	l2LatestBlock, err := cc.roochl2Client.HeaderByNumber(context.Background(), big.NewInt(ethrpc.LatestBlockNumber.Int64()))
+	//l2LatestBlock, err := cc.roochl2Client.HeaderByNumber(context.Background(), big.NewInt(ethrpc.LatestBlockNumber.Int64()))
+	//if err != nil {
+	//	return 0, err
+	//}
+	//
+	//return l2LatestBlock.Number.Uint64(), nil
+
+	getBlocksParams := &roochtypes.GetBlocksParams{
+		//Cursor:          fmt.Sprintf("%d", height),
+		Limit:           "1",
+		DescendingOrder: true,
+	}
+
+	// batch call
+	result, err := cc.roochl2Client.GetBlocks(getBlocksParams)
 	if err != nil {
 		return 0, err
 	}
 
-	return l2LatestBlock.Number.Uint64(), nil
+	l2blocks, err := client.BlockViewsToBlocks(result.GetItems())
+	if err != nil {
+		return 0, err
+	}
+	if len(l2blocks) <= 0 {
+		return 0, fmt.Errorf("QueryLatestBlockHeight fails")
+	}
+
+	return l2blocks[0].BlockHeight, nil
 }
 
 // QueryLastPublicRandCommit returns the last public randomness commitments
@@ -522,53 +570,56 @@ func ConvertProof(cmtProof cmtcrypto.Proof) Proof {
 // GetBlockNumberByTimestamp returns the L2 block number for the given BTC staking activation timestamp.
 // It uses a binary search to find the block number.
 func (cc *Roochl2ConsumerController) GetBlockNumberByTimestamp(ctx context.Context, targetTimestamp uint64) (uint64, error) {
-	// Check if the target timestamp is after the latest block
-	latestBlock, err := cc.roochl2Client.HeaderByNumber(ctx, nil)
-	if err != nil {
-		return math.MaxUint64, err
-	}
-	if targetTimestamp > latestBlock.Time {
-		return math.MaxUint64, fmt.Errorf("target timestamp %d is after the latest block timestamp %d", targetTimestamp, latestBlock.Time)
-	}
+	//// Check if the target timestamp is after the latest block
+	//latestBlock, err := cc.roochl2Client.HeaderByNumber(ctx, nil)
+	//if err != nil {
+	//	return math.MaxUint64, err
+	//}
+	//if targetTimestamp > latestBlock.Time {
+	//	return math.MaxUint64, fmt.Errorf("target timestamp %d is after the latest block timestamp %d", targetTimestamp, latestBlock.Time)
+	//}
+	//
+	//// Check if the target timestamp is before the first block
+	//firstBlock, err := cc.roochl2Client.HeaderByNumber(ctx, big.NewInt(1))
+	//if err != nil {
+	//	return math.MaxUint64, err
+	//}
+	//
+	//// let's say block 0 is at t0 and block 1 at t1
+	//// if t0 < targetTimestamp < t1, the activated height should be block 1
+	//if targetTimestamp < firstBlock.Time {
+	//	return uint64(1), nil
+	//}
+	//
+	//// binary search between block 1 and the latest block
+	//// start from block 1, b/c some L2s such as Rooch mainnet, block 0 is genesis block with timestamp 0
+	//lowerBound := uint64(1)
+	//upperBound := latestBlock.Number.Uint64()
+	//
+	//for lowerBound <= upperBound {
+	//	midBlockNumber := (lowerBound + upperBound) / 2
+	//	block, err := cc.roochl2Client.HeaderByNumber(ctx, big.NewInt(int64(midBlockNumber)))
+	//	if err != nil {
+	//		return math.MaxUint64, err
+	//	}
+	//
+	//	if block.Time < targetTimestamp {
+	//		lowerBound = midBlockNumber + 1
+	//	} else if block.Time > targetTimestamp {
+	//		upperBound = midBlockNumber - 1
+	//	} else {
+	//		return midBlockNumber, nil
+	//	}
+	//}
+	//
+	//return lowerBound, nil
 
-	// Check if the target timestamp is before the first block
-	firstBlock, err := cc.roochl2Client.HeaderByNumber(ctx, big.NewInt(1))
-	if err != nil {
-		return math.MaxUint64, err
-	}
-
-	// let's say block 0 is at t0 and block 1 at t1
-	// if t0 < targetTimestamp < t1, the activated height should be block 1
-	if targetTimestamp < firstBlock.Time {
-		return uint64(1), nil
-	}
-
-	// binary search between block 1 and the latest block
-	// start from block 1, b/c some L2s such as Rooch mainnet, block 0 is genesis block with timestamp 0
-	lowerBound := uint64(1)
-	upperBound := latestBlock.Number.Uint64()
-
-	for lowerBound <= upperBound {
-		midBlockNumber := (lowerBound + upperBound) / 2
-		block, err := cc.roochl2Client.HeaderByNumber(ctx, big.NewInt(int64(midBlockNumber)))
-		if err != nil {
-			return math.MaxUint64, err
-		}
-
-		if block.Time < targetTimestamp {
-			lowerBound = midBlockNumber + 1
-		} else if block.Time > targetTimestamp {
-			upperBound = midBlockNumber - 1
-		} else {
-			return midBlockNumber, nil
-		}
-	}
-
-	return lowerBound, nil
+	//TODO this is mock implement, real implements GetBlockNumberByTimestamp
+	return cc.QueryLatestBlockHeight()
 }
 
 func (cc *Roochl2ConsumerController) Close() error {
-	cc.roochl2Client.Close()
+	//cc.roochl2Client.Close()
 	return cc.CwClient.Stop()
 }
 
