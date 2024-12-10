@@ -450,6 +450,5 @@ replace (
 	// avoid v1.66 that has a breaking change for protobuf. That change breaks the relayer.
 	// https://github.com/grpc/grpc-go/issues/7569
 	google.golang.org/grpc => google.golang.org/grpc v1.65.0
-	//github.com/babylonlabs-io/finality-provider => github.com/rooch-network/finality-provider
-	github.com/babylonlabs-io/finality-provider => .
+	github.com/babylonlabs-io/finality-provider => github.com/rooch-network/finality-provider v0.0.1
 )
