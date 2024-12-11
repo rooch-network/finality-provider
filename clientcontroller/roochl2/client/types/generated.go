@@ -17,13 +17,13 @@ import (
 //type Block struct {
 //	BlockHash      string `json:"block_hash" description:"block hash"`
 //	BlockHeight    uint64 `json:"block_height" description:"block height"`
-//	BlockTimestamp uint64 `json:"block_timestamp" description:"block timestamp"`
+//	BlockTime uint64 `json:"block_time" description:"block timestamp"`
 //}
 
 type BlockView struct {
-	BlockHash      string `json:"block_hash" description:"block hash"`
-	BlockHeight    string `json:"block_height" description:"block height"`
-	BlockTimestamp string `json:"block_timestamp" description:"block timestamp"`
+	BlockHash   string `json:"block_hash" description:"block hash"`
+	BlockHeight string `json:"block_height" description:"block height"`
+	BlockTime   string `json:"block_time" description:"block timestamp"`
 }
 
 // PaginatedResponse is a generic type for paginated responses

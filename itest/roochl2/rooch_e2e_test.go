@@ -36,9 +36,9 @@ func TestRoochFpNoVotingPower(t *testing.T) {
 	testBlock := testBlocks[0]
 
 	queryBlock := &fgtypes.Block{
-		BlockHeight:    testBlock.Height,
-		BlockHash:      hex.EncodeToString(testBlock.Hash),
-		BlockTimestamp: 12345, // doesn't matter b/c the BTC client is mocked
+		BlockHeight: testBlock.Height,
+		BlockHash:   hex.EncodeToString(testBlock.Hash),
+		BlockTime:   12345, // doesn't matter b/c the BTC client is mocked
 	}
 
 	// no BTC delegation, so the FP has no voting power
@@ -81,9 +81,9 @@ func TestFinalityProviderLifeCycle(t *testing.T) {
 	testBlock, err := ctm.getRoochCCAtIndex(0).QueryBlock(l2BlockAfterActivation)
 	require.NoError(t, err)
 	queryBlock := &fgtypes.Block{
-		BlockHeight:    testBlock.Height,
-		BlockHash:      hex.EncodeToString(testBlock.Hash),
-		BlockTimestamp: 12345, // doesn't matter b/c the BTC client is mocked
+		BlockHeight: testBlock.Height,
+		BlockHash:   hex.EncodeToString(testBlock.Hash),
+		BlockTime:   12345, // doesn't matter b/c the BTC client is mocked
 	}
 	finalized, err := ctm.FinalityGadget.QueryIsBlockBabylonFinalized(queryBlock)
 	require.NoError(t, err)
