@@ -7,6 +7,7 @@ import (
 	"github.com/babylonlabs-io/finality-provider/clientcontroller/babylon"
 	"github.com/babylonlabs-io/finality-provider/clientcontroller/cosmwasm"
 	"github.com/babylonlabs-io/finality-provider/clientcontroller/opstackl2"
+	"github.com/babylonlabs-io/finality-provider/clientcontroller/roochl2"
 	cosmwasmcfg "github.com/babylonlabs-io/finality-provider/cosmwasmclient/config"
 	fpcfg "github.com/babylonlabs-io/finality-provider/finality-provider/config"
 	"go.uber.org/zap"
@@ -15,6 +16,7 @@ import (
 const (
 	BabylonConsumerChainType   = "babylon"
 	OPStackL2ConsumerChainType = "OPStackL2"
+	RoochL2ConsumerChainType   = "RoochL2"
 	WasmConsumerChainType      = "wasm"
 )
 
@@ -42,6 +44,11 @@ func NewConsumerController(config *fpcfg.Config, logger *zap.Logger) (api.Consum
 		}
 	case OPStackL2ConsumerChainType:
 		ccc, err = opstackl2.NewOPStackL2ConsumerController(config.OPStackL2Config, logger)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create OPStack L2 consumer client: %w", err)
+		}
+	case RoochL2ConsumerChainType:
+		ccc, err = roochl2.NewRoochL2ConsumerController(config.RoochL2Config, logger)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create OPStack L2 consumer client: %w", err)
 		}
