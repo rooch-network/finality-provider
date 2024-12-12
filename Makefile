@@ -57,7 +57,7 @@ $(BUILDDIR)/:
 	mkdir -p $(BUILDDIR)/
 
 build-docker:
-	$(DOCKER) build --tag babylonlabs-io/finality-provider -f Dockerfile \
+	$(DOCKER) build --tag baichuan3/finality-provider -f Dockerfile \
 		$(shell git rev-parse --show-toplevel)
 
 .PHONY: build build-docker

@@ -58,7 +58,7 @@ type Roochl2ConsumerController struct {
 	logger        *zap.Logger
 }
 
-func NewRoochl2ConsumerController(
+func NewRoochL2ConsumerController(
 	roochl2Cfg *fpcfg.RoochL2Config,
 	logger *zap.Logger,
 ) (*Roochl2ConsumerController, error) {
