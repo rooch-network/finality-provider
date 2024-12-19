@@ -453,4 +453,5 @@ replace (
 	google.golang.org/grpc => google.golang.org/grpc v1.65.0
 	github.com/babylonlabs-io/finality-provider => github.com/rooch-network/finality-provider v0.0.1
 	github.com/babylonlabs-io/finality-gadget => github.com/rooch-network/finality-gadget v0.0.1
+	github.com/babylonlabs-io/babylon => github.com/rooch-network/babylon v0.0.1
 )
