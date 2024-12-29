@@ -441,6 +441,9 @@ require (
 replace (
 	// use cosmos fork of keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
+	github.com/babylonlabs-io/babylon => github.com/rooch-network/babylon v0.0.10
+	github.com/babylonlabs-io/finality-gadget => github.com/rooch-network/finality-gadget v0.0.1
+	github.com/babylonlabs-io/finality-provider => github.com/rooch-network/finality-provider v0.0.1
 	github.com/cockroachdb/pebble => github.com/cockroachdb/pebble v0.0.0-20231018212520-f6cde3fc2fa4
 	github.com/ethereum-optimism/optimism => github.com/babylonlabs-io/optimism v1.8.1-0.20240829090216-6b49c6e93dfe
 	github.com/ethereum/go-ethereum => github.com/ethereum-optimism/op-geth v1.101407.0-rc.1.0.20240812224053-8d99ca68bb1a
@@ -450,7 +453,4 @@ replace (
 	// avoid v1.66 that has a breaking change for protobuf. That change breaks the relayer.
 	// https://github.com/grpc/grpc-go/issues/7569
 	google.golang.org/grpc => google.golang.org/grpc v1.65.0
-	github.com/babylonlabs-io/finality-provider => github.com/rooch-network/finality-provider v0.0.1
-	github.com/babylonlabs-io/finality-gadget => github.com/rooch-network/finality-gadget v0.0.1
-	github.com/babylonlabs-io/babylon => github.com/rooch-network/babylon v0.0.1
 )

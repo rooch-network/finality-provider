@@ -882,16 +882,10 @@ github.com/aws/aws-sdk-go v1.44.122/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX
 github.com/aws/aws-sdk-go v1.44.312 h1:llrElfzeqG/YOLFFKjg1xNpZCFJ2xraIi3PqSuP+95k=
 github.com/aws/aws-sdk-go v1.44.312/go.mod h1:aVsgQcEevwlmQ7qHE9I3h+dtQgpqhFB+i8Phjh7fkwI=
 github.com/aws/aws-sdk-go-v2 v0.18.0/go.mod h1:JWVYvqSMppoMJC0x5wdwiImzgXTI9FuZwxzkQq9wy+g=
-github.com/babylonlabs-io/babylon v0.9.3-0.20240923010008-a6f728b02314 h1:H52j7JtYayHZlK12VsolY938AzrVj3EWJLXHP6e1SGU=
-github.com/babylonlabs-io/babylon v0.9.3-0.20240923010008-a6f728b02314/go.mod h1:Savv0qKMqan8M8kFchXocIsLI69tPmnMOZOe//sgTFI=
-github.com/babylonlabs-io/babylon v0.9.3-0.20240925223611-a98269d17887 h1:Z5UPknFpdpWJIgy71AQfQcJACpwt0KKOiHnb2OIpKaU=
-github.com/babylonlabs-io/babylon v0.9.3-0.20240925223611-a98269d17887/go.mod h1:Savv0qKMqan8M8kFchXocIsLI69tPmnMOZOe//sgTFI=
 github.com/babylonlabs-io/babylon-sdk/demo v0.0.0-20240814002132-55e711397a82 h1:BwgtEtrrbtwQo4FEsoVqeUIHiqJr5krZt6ds3g1SM4s=
 github.com/babylonlabs-io/babylon-sdk/demo v0.0.0-20240814002132-55e711397a82/go.mod h1:QqEn1sL4RPG7DJ94XFYvuvEELml64s5XwPQpTayXJss=
 github.com/babylonlabs-io/babylon-sdk/x v0.0.0-20240814002132-55e711397a82 h1:F9U6iH+RqXo2ColXvGGByWDY0DdyAMnIgjpxQbWooiE=
 github.com/babylonlabs-io/babylon-sdk/x v0.0.0-20240814002132-55e711397a82/go.mod h1:WJlZy0RYCtyBFeO1mr0Tlo02csrlCAQgzmp4+NVX14g=
-github.com/babylonlabs-io/finality-gadget v0.1.1 h1:izW+sxtrsVPC9FlGx0wzWTJqRk+buEw9zfV7nXKQmWA=
-github.com/babylonlabs-io/finality-gadget v0.1.1/go.mod h1:+BICJA7mUJpfYOSYds1G5w6nLO0gKVe9XwdmpIUiXmk=
 github.com/babylonlabs-io/optimism v1.8.1-0.20240829090216-6b49c6e93dfe h1:zkBKNi2in6NbwBBnbYXWw1S2/Dhop/oqRbZM5hSLVN0=
 github.com/babylonlabs-io/optimism v1.8.1-0.20240829090216-6b49c6e93dfe/go.mod h1:pHq032bfnH1xV38fa2C+vIj/1qjqWoBYd/0SeQ0OLCw=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
@@ -2114,6 +2108,8 @@ github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTE
 github.com/rogpeppe/go-internal v1.9.0/go.mod h1:WtVeX8xhTBvf0smdhujwtBcq4Qrzq/fJaraNFVN+nFs=
 github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU5NdKM8=
 github.com/rogpeppe/go-internal v1.12.0/go.mod h1:E+RYuTGaKKdloAfM02xzb0FW3Paa99yedzYV+kq4uf4=
+github.com/rooch-network/babylon v0.0.10 h1:Q570eKVBzdi39JUBh/muATukdNAyc9VvMdSlZ5ApIzY=
+github.com/rooch-network/babylon v0.0.10/go.mod h1:Savv0qKMqan8M8kFchXocIsLI69tPmnMOZOe//sgTFI=
 github.com/rooch-network/finality-gadget v0.0.1 h1:YyqSsXJjfe9IrnGj8Oiyqslpy9QoASlH5Cy6NOFmX2U=
 github.com/rooch-network/finality-gadget v0.0.1/go.mod h1:pQPod1Xutvk+lVjpVIkhuG+h72AnvMtfXNuUMiJ9ee8=
 github.com/rs/cors v1.7.0/go.mod h1:gFx+x8UowdsKA9AchylcLynDq+nNFfI8FkUZdN/jGCU=
